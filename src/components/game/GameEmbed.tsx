@@ -20,7 +20,12 @@ export default function GameEmbed({ mode }: Props) {
         const text = res && res.ok ? await res.text() : await (await fetch("/data/countries.sample.jsonl")).text();
         const rows = parseJsonl(text);
         const parsed = DatasetSchema.safeParse(rows);
-        if (!parsed.success) throw new Error(parsed.error.errors.map(e => `${e.path.join(".")}: ${e.message}`).join("\n"));
+if (!parsed.success) {
+  const detail = parsed.error.issues
+    .map(i => `${i.path.join(".")}: ${i.message}`)
+    .join("\n");
+  throw new Error(detail);
+}
         if (!cancelled) setEntries(parsed.data);
       } catch (e: any) {
         if (!cancelled) setError(e.message || "Failed to load dataset");
