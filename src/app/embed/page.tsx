@@ -1,13 +1,29 @@
-// src/app/embed/page.tsx
-import GameEmbed from "@/components/game/GameEmbed";
-
-export const revalidate = 0; // always fresh
+import ThemeBridge from "@/components/theme/Bridge";
+import ClassicGame from "@/components/game/ClassicGame";
+import { entries, defaultIndex } from "@/lib/data/daily"; // your existing imports
 
 export default function EmbedPage() {
-  // Minimal surface for iframe — no nav, no margins
   return (
-    <div className="min-h-screen bg-[var(--bg)] text-[var(--fg)]">
-      <GameEmbed mode="daily" />
+    <div
+      style={{
+        minHeight: "100dvh",
+        background: "var(--bg)",
+        color: "var(--fg)",
+        fontFamily: "var(--font)",
+        display: "grid",
+        placeItems: "center",
+        padding: "16px"
+      }}
+    >
+      <ThemeBridge />
+      <div className="w-full max-w-[640px]">
+        <ClassicGame
+          entries={entries}
+          mode="daily"
+          defaultIndex={defaultIndex}
+          storageKeyDone="gg_daily_done"
+        />
+      </div>
     </div>
   );
 }

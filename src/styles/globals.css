@@ -1,0 +1,21 @@
+:root{
+  --bg:#0B0C10;
+  --fg:#F5F7FB;
+  --panel:#12141A;
+  --border:rgba(255,255,255,.10);
+  --accent:#7CFFB2;
+  --radius:24px;
+  --font: Inter, system-ui, sans-serif;
+}
+
+/* optional helpers we’ll use */
+.embed-surface{
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.btn-primary{
+  background: var(--accent);
+  color: #0B0C10;
+  border-radius: var(--radius);
+}

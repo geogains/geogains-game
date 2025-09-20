@@ -61,7 +61,10 @@ export default function ClassicGame({ entries, mode, defaultIndex, storageKeyDon
   }
 
   function checkWin(input: string) {
-    return normalize(input) === normalize(entry.name) || (altMap[entry.name] || []).some(a => normalize(a) === normalize(input));
+    return (
+      normalize(input) === normalize(entry.name) ||
+      (altMap[entry.name] || []).some(a => normalize(a) === normalize(input))
+    );
   }
 
   function onSubmit(e?: React.FormEvent) {
@@ -76,7 +79,9 @@ export default function ClassicGame({ entries, mode, defaultIndex, storageKeyDon
       const earned = Math.max(0, 1000 - (tier - 1) * 100); // 1000 → 100
       setScore(earned);
       setState("won");
-      try { localStorage.setItem(storageKeyDone, "1"); } catch {}
+      try {
+        localStorage.setItem(storageKeyDone, "1");
+      } catch {}
     } else {
       const next = lives - 1;
       setLives(next);
@@ -113,13 +118,26 @@ export default function ClassicGame({ entries, mode, defaultIndex, storageKeyDon
         <div className="flex-1 overflow-auto rounded-xl border border-white/10 bg-black/10 p-2">
           <div className="space-y-2">
             {entry.tiers.slice(0, visibleCount).map((t, i) => (
-              <ClueCard key={i} tier={i + 1} clue={t.clue} fact={t.fact} isLast={i + 1 === visibleCount} showFact={false} />
+              <ClueCard
+                key={i}
+                tier={i + 1}
+                clue={t.clue}
+                fact={t.fact}
+                isLast={i + 1 === visibleCount}
+                showFact={false}
+              />
             ))}
           </div>
         </div>
       ) : (
         <div className="flex-1">
-          <ResultCard state={state} score={score} country={entry.name} finalTier={visibleCount} tiers={entry.tiers} />
+          <ResultCard
+            state={state}
+            score={score}
+            country={entry.name}
+            finalTier={visibleCount}
+            tiers={entry.tiers}
+          />
         </div>
       )}
 
@@ -137,7 +155,14 @@ export default function ClassicGame({ entries, mode, defaultIndex, storageKeyDon
             <datalist id={datalistId}>
               {entries.map((e) => (<option key={e.iso3} value={e.name} />))}
             </datalist>
-            <button type="submit" className="h-11 px-4 rounded-lg bg-white/90 text-black font-medium hover:bg-white">Guess</button>
+
+            {/* Primary Guess button */}
+            <button
+              type="submit"
+              className="btn-primary h-11 px-4 font-medium hover:opacity-90"
+            >
+              Guess
+            </button>
 
             {bubble && (
               <div className="absolute -top-8 left-0 text-[12px] bg-white text-black px-2 py-1 rounded shadow">
@@ -146,20 +171,28 @@ export default function ClassicGame({ entries, mode, defaultIndex, storageKeyDon
             )}
           </form>
 
+          {/* Reveal button using design tokens for border + radius */}
           <button
             type="button"
             onClick={revealNext}
             disabled={visibleCount >= 10}
-            className="h-10 mt-2 rounded-lg border border-white/20 hover:bg-white/5 disabled:opacity-50"
+            className="h-10 mt-2 rounded-lg hover:opacity-90 disabled:opacity-50"
+            style={{ border: "1px solid var(--border)", borderRadius: "var(--radius)" }}
           >
             Reveal next clue
           </button>
         </>
       ) : (
         <div className="mt-2 grid grid-cols-2 gap-2">
-          <button onClick={() => setIdx(defaultIndex)} className="h-10 rounded-lg bg-white/90 text-black font-medium hover:bg-white">Play Daily Again</button>
-          <button onClick={nextPractice} className="h-10 rounded-lg border border-white/20 hover:bg-white/5">Practice (preview)</button>
-          <a href="#" className="col-span-2 text-center text-sm opacity-80">Practice will be shown only after daily on your website UI</a>
+          <button onClick={() => setIdx(defaultIndex)} className="h-10 rounded-lg bg-white/90 text-black font-medium hover:bg-white">
+            Play Daily Again
+          </button>
+          <button onClick={nextPractice} className="h-10 rounded-lg border border-white/20 hover:bg-white/5">
+            Practice (preview)
+          </button>
+          <a href="#" className="col-span-2 text-center text-sm opacity-80">
+            Practice will be shown only after daily on your website UI
+          </a>
         </div>
       )}
     </div>
