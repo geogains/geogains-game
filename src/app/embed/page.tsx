@@ -1,7 +1,5 @@
 import ThemeBridge from "@/components/theme/Bridge";
-import ClassicGame from "@/components/game/ClassicGame";
-import { entries, defaultIndex } from "@/lib/data/daily"; // your existing imports
-
+import GameEmbed from "@/components/game/GameEmbed";
 export default function EmbedPage() {
   return (
     <div
@@ -17,12 +15,7 @@ export default function EmbedPage() {
     >
       <ThemeBridge />
       <div className="w-full max-w-[640px]">
-        <ClassicGame
-          entries={entries}
-          mode="daily"
-          defaultIndex={defaultIndex}
-          storageKeyDone="gg_daily_done"
-        />
+        <GameEmbed />
       </div>
     </div>
   );
